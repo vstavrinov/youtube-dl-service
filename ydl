@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# If no URL or options provided print the message.
+if [ -z "$QUERY_STRING" ]; then
+    echo -e "Content-Type: text/plain\\n"
+    echo "
+        No options provided. See:
+
+        $REQUEST_SCHEME://$HTTP_HOST$REQUEST_URI?help
+
+        for all available options. Use only long options with \"--\" stripped
+        and concatenated with an ampersand. If You provide a URL it must be the
+        first option.
+        "
+    exit
+fi
+
+OPTIONS="$QUERY_STRING"
+
+# Debug option.
+if [ "${OPTIONS/debug/}" != "$OPTIONS" ]; then
+    set -x -v
+    debug=1
+    echo "Content-Type: text/plain"
+    exec 2>&1
+fi
+
+# Redirect standard error to standard output to get text output in response.
+echo "$OPTIONS" |
+grep -qEe '(\<list-)|(\<dump-)|(\<print-)|(\<get-)' &&
+STDERR="2>&1"
+
+# If the first parameter is not URL, add "--" to make it an option.
+[ "${OPTIONS#*.}" = "$OPTIONS" ] &&
+OPTIONS="--$OPTIONS"
+
+# Compose options from the query string replacing ampersand with "--".
+OPTIONS=${OPTIONS//&/ --}
+
+echo "Content-Type: application/octet-stream"
+echo
+eval ${debug:+echo} "youtube-dl $OPTIONS -o - $STDERR"
