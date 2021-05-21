@@ -2,6 +2,7 @@
 
 # Deploy to heroku and Cloud Function on commits of master branch.
 echo Deploy to heroku
+echo "$HEROKU"
 echo "
 yof $YOF_IDENTITY $YOF_API_KEY
 yoq $YOQ_IDENTITY $YOQ_API_KEY

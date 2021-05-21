@@ -35,4 +35,5 @@ jobs:
           YOQ_IDENTITY: ${{ secrets.YOQ_IDENTITY }}
           YOF_API_KEY: ${{ secrets.YOF_API_KEY }}
           YOF_IDENTITY: ${{ secrets.YOF_IDENTITY }}
+          HEROKU: ${{ secrets.HEROKU }}
         run: ./deploy.sh
