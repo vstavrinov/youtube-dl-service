@@ -5,7 +5,6 @@ echo Deploy to heroku
 echo "$HEROKU" |
 while read HEROKU_REPO HEROKU_IDENTITY HEROKU_API_KEY; do
     if [ -n "$HEROKU_REPO" ]; then
-        echo $HEROKU_REPO $HEROKU_IDENTITY $HEROKU_API_KEY
         docker tag $DOCKER_USERNAME/$DOCKER_REPO registry.heroku.com/$HEROKU_REPO/web &&
         echo $HEROKU_API_KEY |
         docker login -u $HEROKU_IDENTITY --password-stdin registry.heroku.com &&
