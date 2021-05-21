@@ -28,12 +28,6 @@ jobs:
         run: python -m pytest
       - name: deploy
         env:
-          YOV_API_KEY: ${{ secrets.YOV_API_KEY }}
-          YOV_IDENTITY: ${{ secrets.YOV_IDENTITY }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          YOQ_API_KEY: ${{ secrets.YOQ_API_KEY }}
-          YOQ_IDENTITY: ${{ secrets.YOQ_IDENTITY }}
-          YOF_API_KEY: ${{ secrets.YOF_API_KEY }}
-          YOF_IDENTITY: ${{ secrets.YOF_IDENTITY }}
           HEROKU: ${{ secrets.HEROKU }}
         run: ./deploy.sh
