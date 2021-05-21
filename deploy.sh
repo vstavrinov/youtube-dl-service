@@ -2,12 +2,7 @@
 
 # Deploy to heroku and Cloud Function on commits of master branch.
 echo Deploy to heroku
-echo "$HEROKU"
-echo "
-yof $YOF_IDENTITY $YOF_API_KEY
-yoq $YOQ_IDENTITY $YOQ_API_KEY
-yov $YOV_IDENTITY $YOV_API_KEY
-" |
+echo "$HEROKU" |
 while read HEROKU_REPO HEROKU_IDENTITY HEROKU_API_KEY; do
     if [ -n "$HEROKU_REPO" ]; then
         echo $HEROKU_REPO $HEROKU_IDENTITY $HEROKU_API_KEY
