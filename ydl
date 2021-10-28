@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+exec 2>&1
 # If no URL or options provided print the message.
 if [ -z "$QUERY_STRING" ]; then
     echo -e "Content-Type: text/plain\\n"
@@ -22,7 +24,6 @@ if [ "${OPTIONS/debug/}" != "$OPTIONS" ]; then
     set -x -v
     debug=1
     echo "Content-Type: text/plain"
-    exec 2>&1
 fi
 
 # Redirect standard error to standard output to get text output in response.

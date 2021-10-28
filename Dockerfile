@@ -7,7 +7,7 @@ COPY default.conf /etc/nginx/conf.d
 RUN apt-get update &&                                                 \
     apt-get install -y --no-install-recommends                        \
         python3-pip ffmpeg fcgiwrap;                                  \
-    pip3 install --upgrade youtube-dl;                                \
+    pip3 install --upgrade https://github.com/ytdl-org/youtube-dl;    \
     rm -fr /var/cache/apt /var/lib/apt /usr/share/man /usr/share/doc; \
     usermod -d /srv www-data;                                         \
     chown -R www-data /srv /etc/nginx /var/cache/nginx;               \
