@@ -31,8 +31,8 @@ jobs:
         run: docker run -d -e PORT=$PORT -p $entry:$PORT $DOCKER_USERNAME/$DOCKER_REPO
       - name: sleep
         run: sleep 4
-      #- name: test
-        #run: python -m pytest
+      - name: test
+        run: python -m pytest
       - name: Setup tmate session
         if: ${{ github.event_name == 'workflow_dispatch' &&
                 github.event.inputs.debug_enabled }}

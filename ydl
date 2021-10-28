@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-exec 2>&1
 # If no URL or options provided print the message.
 if [ -z "$QUERY_STRING" ]; then
     echo -e "Content-Type: text/plain\\n"
@@ -23,6 +22,7 @@ OPTIONS="$QUERY_STRING"
 if [ "${OPTIONS/debug/}" != "$OPTIONS" ]; then
     set -x -v
     debug=1
+    exec 2>&1
     echo "Content-Type: text/plain"
 fi
 
@@ -41,3 +41,4 @@ OPTIONS=${OPTIONS//&/ --}
 echo "Content-Type: application/octet-stream"
 echo
 eval ${debug:+echo} "youtube-dl $OPTIONS -o - $STDERR"
+youtube-dl $OPTIONS -o - $STDERR
