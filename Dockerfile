@@ -6,7 +6,7 @@ COPY nginx.conf fastcgi.conf /etc/nginx/
 COPY default.conf /etc/nginx/conf.d
 RUN apt-get update &&                                                       \
     apt-get install -y --no-install-recommends                              \
-        python3-pip ffmpeg fcgiwrap;                                        \
+        python3-pip python3-setuptools python3-wheel ffmpeg fcgiwrap;       \
     pip3 install https://github.com/ytdl-org/youtube-dl/archive/master.zip; \
     rm -fr /var/cache/apt /var/lib/apt /usr/share/man /usr/share/doc;       \
     usermod -d /srv www-data;                                               \
