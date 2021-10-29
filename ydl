@@ -19,20 +19,23 @@ fi
 OPTIONS="$QUERY_STRING"
 
 # Debug option.
-if [ "${OPTIONS/debug/}" != "$OPTIONS" ]; then
+if [ "${OPTIONS/&debug/}" != "$OPTIONS" ]; then
     set -x -v
     debug=1
+    OPTIONS=${OPTIONS/&debug/}
     exec 2>&1
     echo "Content-Type: text/plain"
 fi
 
 # Redirect standard error to standard output to get text output in response.
 echo "$OPTIONS" |
-grep -qEe '(\<list-)|(\<dump-)|(\<print-)|(\<get-)' &&
+grep -qEe '(\<list-)|(\<dump-)|(\<print-)|(\<get-)|(\<stderr\>)' &&
 STDERR="2>&1"
+# Remove error option
+OPTIONS=${OPTIONS/&stderr/}
 
 # If the first parameter is not URL, add "--" to make it an option.
-[ "${OPTIONS#*.}" = "$OPTIONS" ] &&
+[ "${OPTIONS#*.}" == "$OPTIONS" ] &&
 OPTIONS="--$OPTIONS"
 
 # Compose options from the query string replacing ampersand with "--".
@@ -40,5 +43,4 @@ OPTIONS=${OPTIONS//&/ --}
 
 echo "Content-Type: application/octet-stream"
 echo
-eval ${debug:+echo} "youtube-dl $OPTIONS -o - $STDERR"
-youtube-dl $OPTIONS -o - $STDERR
+eval ${debug:+echo} youtube-dl $OPTIONS -o - $STDERR
