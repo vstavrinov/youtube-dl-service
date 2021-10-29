@@ -20,11 +20,11 @@ OPTIONS="$QUERY_STRING"
 
 # Debug option.
 if [ "${OPTIONS/&debug/}" != "$OPTIONS" ]; then
-    set -x -v
     debug=1
     OPTIONS=${OPTIONS/&debug/}
     exec 2>&1
     echo "Content-Type: text/plain"
+    set -x -v
 fi
 
 # Redirect standard error to standard output to get text output in response.
