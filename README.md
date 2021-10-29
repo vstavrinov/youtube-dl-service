@@ -68,3 +68,17 @@ vlc --playlist-autostart 'http://localhost:8000?youtube.com/BloombergTV/live&for
 ```
 
 If You provide a URL it must be the first option. Needless to say You can use any player instead vlc and browser your prefer instead curl.
+
+## Troubleshooting:
+
+In case of stream failure, see its output with stderr option to find the cause:
+
+```
+curl 'http://localhost:8000?youtube.com/BloombergTV/live&stderr'
+```
+
+Further details of how command line being composed reveal with debug mode:
+
+```
+curl 'http://localhost:8000?youtube.com/BloombergTV/live&debug'
+```
