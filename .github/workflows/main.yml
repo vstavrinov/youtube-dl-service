@@ -12,8 +12,8 @@ on:
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_REPO: youtube-dl-service
-  PORT: 7000
-  entry: 8000
+  PORT: 80
+  entry: 7000
 
 jobs:
   deploy:
