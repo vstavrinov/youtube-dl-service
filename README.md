@@ -34,37 +34,37 @@ docker run -d -e PORT=7000 -p 8000:7000 vstavrinov/youtube-dl-service
 Finally you can watch tv:
 
 ```
-vlc --playlist-autostart http://localhost:8000?youtube.com/BloombergTV/live
+vlc --playlist-autostart http://localhost:8000/youtube.com/BloombergTV/live
 ```
 
 Here 'youtube.com/BloombergTV/live' is URL of web page where You watch this stream with browser. Check for all available formats for this stream:
 
 ```
-curl 'http://localhost:8000?youtube.com/BloombergTV/live&list-formats'
+curl 'http://localhost:8000/youtube.com/BloombergTV/live?--list-formats'
 ```
 
 To get the list of supported sites for streaming:
 
 ```
-curl 'http://localhost:8000?extractor-descriptions'
+curl 'http://localhost:8000?--extractor-descriptions'
 ```
 
 See more available options:
 
 ```
-curl http://localhost:8000?help
+curl http://localhost:8000?--help
 ```
 
-Use only long options with \"--\" stripped and concatenated with an ampersand. You can put these options into query string of the form:
+Use only long options concatenated with an ampersand. You can put these options into query string of the form:
 
 ```
 key1=value1&key2=value2&key3&key4 etc.
 ```
-
-For example using on of the format listed above:
+Be aware, if the stream URL has no query string, You must prepend the options with a question mark. And any options must follow stream URL.
+For example using one of the format listed above:
 
 ```
-vlc --playlist-autostart 'http://localhost:8000?youtube.com/BloombergTV/live&format=300'
+vlc --playlist-autostart 'http://localhost:8000/youtube.com/BloombergTV/live?--format=300'
 ```
 
 If You provide a URL it must be the first option. Needless to say You can use any player instead vlc and browser your prefer instead curl.
@@ -74,11 +74,11 @@ If You provide a URL it must be the first option. Needless to say You can use an
 In case of stream failure, see its output with stderr option to find the cause:
 
 ```
-curl 'http://localhost:8000?youtube.com/BloombergTV/live&stderr'
+curl 'http://localhost:8000/youtube.com/BloombergTV/live?--stderr'
 ```
 
 Further details of how command line being composed reveal with debug mode:
 
 ```
-curl 'http://localhost:8000?youtube.com/BloombergTV/live&debug'
+curl 'http://localhost:8000/youtube.com/BloombergTV/live?--debug'
 ```

@@ -1,13 +1,11 @@
 #!/bin/bash
 
-
 # If no URL or options provided print the message.
-if [ -z "$QUERY_STRING" ]; then
-    echo -e "Content-Type: text/plain\\n"
+if [ -z "$DOCUMENT_URI" ]; then
     echo "
         No options provided. See:
 
-        $REQUEST_SCHEME://$HTTP_HOST$REQUEST_URI?help
+        $REQUEST_SCHEME://$HTTP_HOST?--help
 
         for all available options. Use only long options with \"--\" stripped
         and concatenated with an ampersand. If You provide a URL it must be the
@@ -16,31 +14,40 @@ if [ -z "$QUERY_STRING" ]; then
     exit
 fi
 
-OPTIONS="$QUERY_STRING"
+# Stream URL query string
+QS="${QUERY_STRING%%--*}"
+# youtube-dl options
+OPTIONS="${QUERY_STRING%${QS}}"
+# Stream URL: strip trailing ampersand, leading slash, and protocol schema
+URL="$DOCUMENT_URI${QS:+?$QS}"
+URL=${URL%\&}
+URL=${URL#/}
+URL=${URL#http:/}
+URL=${URL#https:/}
+
+# Compose options from the query string replacing ampersand with space.
+OPTIONS="${OPTIONS//\&/ }"
 
 # Debug option.
-if [ "${OPTIONS/&debug/}" != "$OPTIONS" ]; then
+if [ "${OPTIONS/--debug/}" != "$OPTIONS" ]; then
     debug=1
-    OPTIONS=${OPTIONS/&debug/}
+    OPTIONS="${OPTIONS/--debug/}"
     exec 2>&1
     echo "Content-Type: text/plain"
     set -x -v
 fi
 
-# Redirect standard error to standard output to get text output in response.
+
+# Redirect standard error to standard output to get text output in response for some options.
 echo "$OPTIONS" |
-grep -qEe '(\<list-)|(\<dump-)|(\<print-)|(\<get-)|(\<stderr\>)' &&
+grep -qEe '(--list-)|(--dump-)|(--print-)|(--get-)|(--stderr)|(--help)' &&
 STDERR="2>&1"
 # Remove error option
-OPTIONS=${OPTIONS/&stderr/}
-
-# If the first parameter is not URL, add "--" to make it an option.
-[ "${OPTIONS#*.}" == "$OPTIONS" ] &&
-OPTIONS="--$OPTIONS"
-
-# Compose options from the query string replacing ampersand with "--".
-OPTIONS=${OPTIONS//&/ --}
+OPTIONS="${OPTIONS/--stderr/}"
+# Remove equal sign at the end of every option added by crazy yandex cloud
+OPTIONS="${OPTIONS%=}"
+OPTIONS="${OPTIONS//= /}"
 
 echo "Content-Type: application/octet-stream"
 echo
-eval ${debug:+echo} youtube-dl $OPTIONS -o - $STDERR
+eval ${debug:+echo} youtube-dl $OPTIONS -o - "$URL" $STDERR
