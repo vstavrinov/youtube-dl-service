@@ -1,23 +1,19 @@
 #!/bin/bash
 
-# If no URL or options provided print the message.
-if [ -z "$DOCUMENT_URI" ]; then
-    echo "
-        No options provided. See:
+# VLC ignores content-type header in case of m3u8, so URL should be set
+# as the first parameter and then query string should be split on URL
+# and rest of query string
 
-        $REQUEST_SCHEME://$HTTP_HOST?--help
-
-        for all available options. Use only long options with \"--\" stripped
-        and concatenated with an ampersand. If You provide a URL it must be the
-        first option.
-        "
-    exit
+if [ "$DOCUMENT_URI" == "/" ]; then
+    DOCUMENT_URI="${QUERY_STRING%%&*}"
+    QUERY_STRING="${QUERY_STRING#$DOCUMENT_URI}"
+    QUERY_STRING="${QUERY_STRING#&}"
 fi
 
 # Stream URL query string
 QS="${QUERY_STRING%%--*}"
 # youtube-dl options
-OPTIONS="${QUERY_STRING%${QS}}"
+OPTIONS="${QUERY_STRING#${QS}}"
 # Stream URL: strip trailing ampersand, leading slash, and protocol schema
 URL="$DOCUMENT_URI${QS:+?$QS}"
 URL=${URL%\&}
@@ -50,4 +46,4 @@ OPTIONS="${OPTIONS//= /}"
 
 echo "Content-Type: application/octet-stream"
 echo
-eval ${debug:+echo} youtube-dl $OPTIONS -o - "$URL" $STDERR
+eval ${debug:+echo} youtube-dl 4M $OPTIONS -o - "$URL" $STDERR

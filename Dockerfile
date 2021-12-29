@@ -15,7 +15,7 @@ RUN apt-get update &&                                                           
     chown -R www-data /srv /etc/nginx /var/cache/nginx;                         \
     ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 USER www-data
-CMD sed -i -e "s/PORT/$PORT/"  /etc/nginx/conf.d/default.conf;   \
-    chmod 600 /etc/nginx/conf.d/default.conf;                    \
-    spawn-fcgi -F4 -S -u www-data -p 9000 -- /usr/sbin/fcgiwrap; \
+CMD sed -i -e "s/PORT/${PORT:=80}/"  /etc/nginx/conf.d/default.conf; \
+    chmod 600 /etc/nginx/conf.d/default.conf;                        \
+    spawn-fcgi -F4 -S -u www-data -p 9000 -- /usr/sbin/fcgiwrap;     \
     nginx -g "daemon off;"
