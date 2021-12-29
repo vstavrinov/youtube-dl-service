@@ -46,4 +46,4 @@ OPTIONS="${OPTIONS//= /}"
 
 echo "Content-Type: application/octet-stream"
 echo
-eval ${debug:+echo} youtube-dl 4M $OPTIONS -o - "$URL" $STDERR
+eval ${debug:+echo} youtube-dl $OPTIONS -o - "$URL" $STDERR
