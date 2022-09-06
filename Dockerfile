@@ -7,7 +7,7 @@ COPY default.conf /etc/nginx/conf.d
 RUN apt-get update &&                                                           \
     apt-get install --yes --no-install-recommends                               \
         python3-pip python3-setuptools apt-utils python3-wheel ffmpeg fcgiwrap; \
-    pip3 install https://github.com/ytdl-org/youtube-dl/archive/master.zip;     \
+    pip3 install https://github.com/vstavrinov/youtube-dl/archive/master.zip;   \
     apt-get remove --yes                                                        \
         python3-pip python3-setuptools apt-utils python3-wheel;                 \
     rm -fr /var/cache/apt /var/lib/apt /usr/share/man /usr/share/doc;           \
