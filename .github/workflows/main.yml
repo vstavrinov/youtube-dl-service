@@ -22,11 +22,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
+      - name: Fetch tags
+        run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
       - uses: actions/setup-python@v2
       - name: build
         run: docker build -t $DOCKER_USERNAME/$DOCKER_REPO .
       - name: install
-        run: pip install pytest-cov pytest-flake8 codecov
+        run: pip install pytest-cov pytest-flake8 codecov versioningit
       - name: run
         run: docker run -d -e PORT=$PORT -p $entry:$PORT $DOCKER_USERNAME/$DOCKER_REPO
       - name: sleep
