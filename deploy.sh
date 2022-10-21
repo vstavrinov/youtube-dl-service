@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
 # Deploy to heroku and Cloud Function on commits of master branch.
 TAG=$(versioningit)
@@ -28,6 +28,6 @@ done
 echo Deploy to docker hub
 docker tag $DOCKER_USERNAME/$DOCKER_REPO $DOCKER_USERNAME/$DOCKER_REPO:$TAG
 echo $DOCKER_PASSWORD |
-docker login -u $DOCKER_USERNAME --password-stdin &&
+docker login -u $DOCKER_USERNAME --password-stdin
 docker push $DOCKER_USERNAME/$DOCKER_REPO:$TAG
 docker push $DOCKER_USERNAME/$DOCKER_REPO:latest
