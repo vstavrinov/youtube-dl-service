@@ -32,8 +32,9 @@ jobs:
       - uses: actions/setup-python@v2
       - name: build
         run: docker build -t $DOCKER_USERNAME/$DOCKER_REPO .
+      - uses: codecov/codecov-action@v3
       - name: install
-        run: pip install pytest-cov pytest-flake8 codecov versioningit
+        run: pip install pytest-cov pytest-flake8 versioningit
       - name: run
         run: docker run -d -e PORT=$PORT -p $entry:$PORT $DOCKER_USERNAME/$DOCKER_REPO
       - name: sleep
