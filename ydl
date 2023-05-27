@@ -4,6 +4,14 @@
 # as the first parameter and then query string should be split on URL
 # and rest of query string
 
+if [ "${QUERY_STRING/--version/}" != "$QUERY_STRING" ]; then
+    echo "Content-Type: text/plain"
+    echo
+    cat youtube-dl-version
+    exit
+fi
+
+
 if [ "$DOCUMENT_URI" == "/" ]; then
     DOCUMENT_URI="${QUERY_STRING%%&*}"
     QUERY_STRING="${QUERY_STRING#$DOCUMENT_URI}"
