@@ -1,7 +1,7 @@
 FROM nginx
 WORKDIR /srv
 ENV COLUMNS=116
-ADD ydl youtube-dl-version .
+ADD ydl youtube-dl-version /srv
 COPY nginx.conf fastcgi.conf /etc/nginx/
 COPY default.conf /etc/nginx/conf.d
 RUN apt-get update &&                                                           \
