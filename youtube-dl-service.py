@@ -3,7 +3,7 @@ from subprocess import Popen, PIPE, DEVNULL
 from threading import Timer
 from time import sleep
 
-from flask import Flask, request, Response
+from flask import Flask, request, send_file, Response
 
 app = Flask(__name__)
 chunk_size = 1 << 12
@@ -23,6 +23,8 @@ def main(path, request=request):
     try:
         args = 'youtube-dl '
         query_string = request.query_string.decode()
+        if '--version' in query_string:
+            return send_file('youtube-dl-version')
         query_string = query_string[:query_string.find('--')]
         query_string = query_string.strip('&')
         for opt in request.args:
