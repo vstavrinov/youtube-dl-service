@@ -12,7 +12,7 @@ RUN apt-get update &&                                                           
         python3-pip python3-setuptools apt-utils python3-wheel;                 \
     rm -fr /var/cache/apt /var/lib/apt /usr/share/man /usr/share/doc;           \
     usermod -d /srv www-data;                                                   \
-    chown -R www-data /srv /etc/nginx /var/cache/nginx;                         \
+    chown -R www-data /srv /etc/nginx /var/cache/nginx
 USER www-data
 CMD sed -i -e "s/PORT/${PORT:=80}/"  /etc/nginx/conf.d/default.conf; \
     chmod 600 /etc/nginx/conf.d/default.conf;                        \
