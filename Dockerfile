@@ -13,7 +13,6 @@ RUN apt-get update &&                                                           
     rm -fr /var/cache/apt /var/lib/apt /usr/share/man /usr/share/doc;           \
     usermod -d /srv www-data;                                                   \
     chown -R www-data /srv /etc/nginx /var/cache/nginx;                         \
-    ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 USER www-data
 CMD sed -i -e "s/PORT/${PORT:=80}/"  /etc/nginx/conf.d/default.conf; \
     chmod 600 /etc/nginx/conf.d/default.conf;                        \
