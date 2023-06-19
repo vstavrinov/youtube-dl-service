@@ -8,7 +8,8 @@ RUN apt-get update &&                                                         \
     apt-get install --yes --no-install-recommends                             \
         python3-pip python3-setuptools apt-utils python3-wheel                \
         ffmpeg spawn-fcgi fcgiwrap;                                           \
-    pip3 install https://github.com/vstavrinov/youtube-dl/archive/master.zip; \
+    pip3 install --break-system-packages                                      \
+        https://github.com/vstavrinov/youtube-dl/archive/master.zip;          \
     apt-get remove --yes                                                      \
         python3-pip python3-setuptools apt-utils python3-wheel;               \
     rm -fr /var/cache/apt /var/lib/apt /usr/share/man /usr/share/doc;         \
