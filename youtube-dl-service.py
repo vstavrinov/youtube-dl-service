@@ -21,10 +21,10 @@ def main(path, request=request):
             popen.kill()
 
     try:
-        args = 'youtube-dl '
+        args = 'yt-dlp '
         query_string = request.query_string.decode()
         if '--version' in query_string:
-            return send_file('youtube-dl-version')
+            return send_file('yt-dlp-version')
         query_string = query_string[:query_string.find('--')]
         query_string = query_string.strip('&')
         for opt in request.args:
