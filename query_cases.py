@@ -27,4 +27,4 @@ class TestCases(unittest.TestCase):
     def test_help(self):
         '''Pull out long help message'''
         args = '?--help'
-        self.assertTrue('Usage: youtube-dl ' in self.probe(args, None).decode())
+        self.assertTrue('Usage: yt-dlp ' in self.probe(args, None).decode())
