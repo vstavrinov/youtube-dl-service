@@ -7,7 +7,7 @@ RUN apk update &&                                                          \
     adduser -h /srv -D gunicorn; chown -R gunicorn.gunicorn /srv
 USER gunicorn
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
-RUN pip install --no-cache-dir --user                            \
+RUN pip install --no-cache-dir --user --break-system-packages    \
         https://github.com/vstavrinov/yt-dlp/archive/master.zip; \
         find .local -type d -name __pycache__  -print0 |         \
         xargs -0 rm -fr; rm -fr .cache;
