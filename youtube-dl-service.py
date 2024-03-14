@@ -1,5 +1,5 @@
 import sys
-from subprocess import Popen, PIPE, DEVNULL
+from subprocess import Popen, PIPE, DEVNULL, STDOUT
 from threading import Timer
 from time import sleep
 
@@ -44,7 +44,7 @@ def main(path, request=request):
                 yield chunk
             terminate(popen)
 
-        popen = Popen(args.split(), stdout=PIPE, stdin=DEVNULL)
+        popen = Popen(args.split(), stdout=PIPE, stderr=STDOUT, stdin=DEVNULL)
         return Response(generate(popen), content_type='video/mpeg')
     except Exception or OSError as exception:
         error = 'Exception {0}: {1}\n'.format(type(exception).__name__,
