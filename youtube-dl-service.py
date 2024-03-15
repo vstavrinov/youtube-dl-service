@@ -34,7 +34,7 @@ def main(path, request=request):
         if ('--list-' or '--dump-' or '--print-' or '--get-' or '--help') in args:
             stderr = STDOUT
         else:
-            stderr = PIPE
+            stderr = None
 
         def generate(popen):
             chunk = True
@@ -48,7 +48,7 @@ def main(path, request=request):
                 yield chunk
             terminate(popen)
 
-        popen = Popen(args.split(), stdout=PIPE, stderr=stderr, stdin=DEVNULL)
+        popen = Popen(args.split(), stdout=PIPE, stdin=DEVNULL, stderr=stderr)
         return Response(generate(popen), content_type='video/mpeg')
     except Exception or OSError as exception:
         error = 'Exception {0}: {1}\n'.format(type(exception).__name__,
