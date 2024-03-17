@@ -7,7 +7,7 @@ from flask import Flask, request, send_file, Response
 
 app = Flask(__name__)
 chunk_size = 1 << 12
-timeout = 1 << 1
+timeout = 1 << 4
 
 
 @app.route('/', defaults={'path': ''})
