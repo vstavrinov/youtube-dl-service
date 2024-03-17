@@ -1,3 +1,4 @@
+import os
 import sys
 from subprocess import Popen, PIPE, DEVNULL, STDOUT
 from threading import Timer
@@ -21,6 +22,7 @@ def main(path, request=request):
             popen.kill()
 
     try:
+        os.chdir('/dev/shm')
         args = 'yt-dlp '
         query_string = request.query_string.decode()
         if '--version' in query_string:
