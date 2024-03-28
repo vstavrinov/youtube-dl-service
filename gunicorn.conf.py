@@ -5,4 +5,4 @@ timeout = 0
 # force the worker to restart on client disconnect to prevent
 # ffmpeg running forever otherwise
 max_requests = 1
-workers = 2
+workers = 4
