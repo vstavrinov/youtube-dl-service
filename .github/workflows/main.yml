@@ -46,12 +46,12 @@ jobs:
                 failure() }}
         uses: mxschmitt/action-tmate@v3
       - name: deploy
-        if: ${{ startsWith(github.ref, 'refs/tags/') ||
-                github.event.inputs.youtube-dl }}
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_REGISTRY: ghcr.io
           IMAGE_NAME: ${{ github.repository }}
+        if: ${{ startsWith(github.ref, 'refs/tags/') ||
+                github.event.inputs.youtube-dl }}
         run: ./deploy.sh

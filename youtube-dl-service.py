@@ -28,7 +28,9 @@ def main(path, request=request):
         query_string = request.query_string.decode()
         if '--version' in query_string:
             return send_file('yt-dlp-version')
-        query_string = query_string[:query_string.find('--')]
+        opt_idx = query_string.find('--')
+        if  opt_idx > -1:
+            query_string = query_string[:opt_idx]
         query_string = query_string.strip('&')
         for opt in request.args:
             if opt.startswith('--'):
