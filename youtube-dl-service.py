@@ -36,10 +36,13 @@ def main(path, request=request):
             if opt.startswith('--'):
                 args += opt + ' ' + request.args[opt] + ' '
         args += ('-o - ' + path + '?' + query_string).rstrip('?')
-        if ('--list-' or '--dump-' or '--print-' or '--get-' or '--help') in args:
+        if '--list-' or '--dump-' or '--print-' or '--get-' or '--help' in args:
             stderr = STDOUT
+            args += ' --no-warnings '
+            content_type = 'text/plain'
         else:
             stderr = None
+            content_type = 'video/mpeg'
 
         def generate(popen):
             chunk = True
@@ -54,7 +57,7 @@ def main(path, request=request):
             terminate(popen)
 
         popen = Popen(args.split(), stdout=PIPE, stdin=DEVNULL, stderr=stderr)
-        return Response(generate(popen), content_type='video/mpeg')
+        return Response(generate(popen), content_type=content_type)
     except Exception or OSError as exception:
         error = 'Exception {0}: {1}\n'.format(type(exception).__name__,
                                               exception)
