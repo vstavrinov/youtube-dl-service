@@ -36,12 +36,13 @@ def main(path, request=request):
             if opt.startswith('--'):
                 args += opt + ' ' + request.args[opt] + ' '
         args += ('-o - ' + path + '?' + query_string).rstrip('?')
-        if '--list-' or '--dump-' or '--print-' or '--get-' or '--help' in args:
-            stderr = STDOUT
-            args += ' --no-warnings '
-            content_type = 'text/plain'
-        else:
-            stderr = None
+        stderr = None
+        for opt in '--list-', '--dump-', '--print', '--get-', '--help':
+            if opt in args:
+                stderr = STDOUT
+                args += ' --no-warnings '
+                content_type = 'text/plain'
+        if not stderr:
             content_type = 'video/mpeg'
 
         def generate(popen):
