@@ -15,6 +15,8 @@ timeout = 60
 @app.route('/<path:path>')
 def main(path, request=request):
 
+    if not path.startswith('http'):
+        path = 'https://' + path
     def terminate(popen):
         popen.terminate()
         sleep(1)
