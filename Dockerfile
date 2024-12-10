@@ -4,7 +4,7 @@ WORKDIR /srv
 COPY youtube-dl-service.py gunicorn.conf.py yt-dlp-version ./
 RUN apk update &&                                                          \
     apk add --no-cache python3 py-pip py-flask py3-gunicorn tzdata ffmpeg; \
-    adduser -h /srv -D gunicorn; chown -R gunicorn.gunicorn /srv
+    adduser -h /srv -D gunicorn; chown -R gunicorn:gunicorn /srv
 USER gunicorn
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 RUN pip install --no-cache-dir --user --break-system-packages    \
