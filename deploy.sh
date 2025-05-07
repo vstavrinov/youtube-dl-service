@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-TAG=$(versioningit)
+TAG="$(git tag | tail -1)-$(cat yt-dlp-version)"
 # Deploy to docker hub new version (tag)
 echo Deploy to docker hub new version GITHUB_REF=${GITHUB_REF}, TAG=$TAG,  GITHUB_REF_NAME=$GITHUB_REF_NAME
 echo $DOCKER_PASSWORD |
