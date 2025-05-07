@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Fetch tags
-        run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
+        run: git fetch origin +refs/tags/*:refs/tags/*
       - uses: actions/setup-python@v2
       - name: build
         run: docker build -t $DOCKER_USERNAME/$DOCKER_REPO .
