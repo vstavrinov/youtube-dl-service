@@ -2,6 +2,12 @@
 
 This video streaming service based on [youtube-dl](https://github.com/ytdl-org/youtube-dl) project. It extracts stream from web page and feeds it directly to Your video player allowing to avoid using browser. You can run it either on local computer or on the cloud turning it into global service.
 
+## Simplest Quik Start
+
+```
+docker run -p 8808:8808 vstavrinov/youtube-dl-service
+```
+
 ## Build:
 
 ```
@@ -13,46 +19,47 @@ docker build -t youtube-dl-service .
 ## Usage:
 
 ```
-docker run -d -e PORT=<service-port> -p <container-port>:<service-port> <youtube-dl-image>
+docker run -d -e WORKERS=<workers> -e PORT=<service-port> -p <container-port>:<service-port> <youtube-dl-image>
 ```
 
-- service-port is port of service inside container.
+- service-port is port of service inside container (default 8808).
 - container-port is where you send your request for stream
 - youtube-dl-image is either docker image You build on your own or those pulled from the repository.
+- workers-number is max clients served simultaneously (default 4).
 
 For example:
 
 ```
-docker run -d -e PORT=7000 -p 8000:7000 youtube-dl-service
+docker run -d -e PORT=8808 -p 8808:8808 youtube-dl-service
 ```
 Or you can omit build phase and pull and run it from the repository:
 
 ```
-docker run -d -e PORT=7000 -p 8000:7000 vstavrinov/youtube-dl-service
+docker run -d -e PORT=8808 -p 8808:8808 vstavrinov/youtube-dl-service
 ```
 
 Finally you can watch tv:
 
 ```
-vlc --playlist-autostart http://localhost:8000/youtube.com/BloombergTV/live
+vlc --playlist-autostart http://localhost:8808/youtube.com/BloombergTV/live
 ```
 
 Here 'youtube.com/BloombergTV/live' is URL of web page where You watch this stream with browser. Check for all available formats for this stream:
 
 ```
-curl 'http://localhost:8000/youtube.com/BloombergTV/live?--list-formats'
+curl 'http://localhost:8808/youtube.com/BloombergTV/live?--list-formats'
 ```
 
 To get the list of supported sites for streaming:
 
 ```
-curl 'http://localhost:8000?--extractor-descriptions'
+curl 'http://localhost:8808?--extractor-descriptions'
 ```
 
 See more available options:
 
 ```
-curl http://localhost:8000?--help
+curl http://localhost:8808?--help
 ```
 
 Use only long options concatenated with an ampersand. You can put these options into query string of the form:
@@ -64,7 +71,7 @@ Be aware, if the stream URL has no query string, You must prepend the options wi
 For example using one of the format listed above:
 
 ```
-vlc --playlist-autostart 'http://localhost:8000/youtube.com/BloombergTV/live?--format=300'
+vlc --playlist-autostart 'http://localhost:8808/youtube.com/BloombergTV/live?--format=300'
 ```
 
 If You provide a URL it must be the first option. Needless to say You can use any player instead vlc and browser your prefer instead curl.
@@ -74,11 +81,11 @@ If You provide a URL it must be the first option. Needless to say You can use an
 In case of stream failure, see its output with stderr option to find the cause:
 
 ```
-curl 'http://localhost:8000/youtube.com/BloombergTV/live?--stderr'
+curl 'http://localhost:8808/youtube.com/BloombergTV/live?--stderr'
 ```
 
 Further details of how command line being composed reveal with debug mode:
 
 ```
-curl 'http://localhost:8000/youtube.com/BloombergTV/live?--debug'
+curl 'http://localhost:8808/youtube.com/BloombergTV/live?--debug'
 ```
