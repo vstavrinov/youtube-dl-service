@@ -11,4 +11,4 @@ RUN pip install --no-cache-dir --user --break-system-packages    \
         https://github.com/vstavrinov/yt-dlp/archive/master.zip; \
         find .local -type d -name __pycache__  -print0 |         \
         xargs -0 rm -fr; rm -fr .cache;
-CMD gunicorn --workers=${WORKERS:=4} --bind .0.0.0:${PORT:=8808} youtube-dl-service:app
+CMD gunicorn --workers=${WORKERS:=4} --bind 0.0.0.0:${PORT:=8808} youtube-dl-service:app
