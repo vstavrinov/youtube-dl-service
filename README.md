@@ -1,6 +1,6 @@
 # youtube-dl-service
 
-This video streaming service based on [youtube-dl](https://github.com/ytdl-org/youtube-dl) project. It extracts stream from web page and feeds it directly to Your video player allowing to avoid using browser. You can run it either on local computer or on the cloud turning it into global service.
+This video streaming service based on [yt-dlp](https://github.com/yt-dlp/yt-dlp) project. It extracts stream from web page and feeds it directly to Your video player allowing to avoid using browser. You can run it either on local computer or on the cloud turning it into global service.
 
 ## Simplest Quik Start
 
@@ -71,21 +71,18 @@ Be aware, if the stream URL has no query string, You must prepend the options wi
 For example using one of the format listed above:
 
 ```
-vlc --playlist-autostart 'http://localhost:8808/youtube.com/BloombergTV/live?--format=300'
+vlc --playlist-autostart 'http://localhost:8808/youtube.com/BloombergTV/live?--format=230'
 ```
 
 If You provide a URL it must be the first option. Needless to say You can use any player instead vlc and browser your prefer instead curl.
 
-## Troubleshooting:
 
-In case of stream failure, see its output with stderr option to find the cause:
+## Update
 
-```
-curl 'http://localhost:8808/youtube.com/BloombergTV/live?--stderr'
-```
+The docker image automatically updated with [yt-dlp](https://github.com/yt-dlp/yt-dlp) every update. So to get image for your service up to date do the following in that order: 
 
-Further details of how command line being composed reveal with debug mode:
+1. Stop your docker container. 
+2. Remove Your docker container. 
+3. Remove your docker image. 
+4. Run your docker container.
 
-```
-curl 'http://localhost:8808/youtube.com/BloombergTV/live?--debug'
-```
