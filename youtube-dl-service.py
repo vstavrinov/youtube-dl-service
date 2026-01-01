@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE, DEVNULL, STDOUT
 from threading import Timer
 from time import sleep
 
-from flask import Flask, request, send_file, Response
+from flask import Flask, request, send_file, Response, redirect
 
 app = Flask(__name__)
 chunk_size = 1 << 12
@@ -17,6 +17,7 @@ def main(path, request=request):
 
     if not path.startswith('http'):
         path = 'https://' + path
+
     def terminate(popen):
         popen.terminate()
         sleep(1)
@@ -31,13 +32,15 @@ def main(path, request=request):
         if '--version' in query_string:
             return send_file('yt-dlp-version')
         opt_idx = query_string.find('--')
-        if  opt_idx > -1:
+        if opt_idx > -1:
             query_string = query_string[:opt_idx]
         query_string = query_string.strip('&')
         for opt in request.args:
             if opt.startswith('--'):
                 args += opt + ' ' + request.args[opt] + ' '
         args += ('-o - ' + path + '?' + query_string).rstrip('?')
+        if 'redirect' in request.args:
+            args += ' --print=%(url)s'
         stderr = None
         for opt in '--list-', '--dump-', '--print', '--get-', '--help':
             if opt in args:
@@ -60,7 +63,12 @@ def main(path, request=request):
             terminate(popen)
 
         popen = Popen(args.split(), stdout=PIPE, stdin=DEVNULL, stderr=stderr)
-        return Response(generate(popen), content_type=content_type)
+        if 'redirect' in request.args:
+            resp = redirect(popen.communicate()[0].decode().strip("\n"),
+                            code=307)
+        else:
+            resp = Response(generate(popen), content_type=content_type)
+        return resp
     except Exception or OSError as exception:
         error = 'Exception {0}: {1}\n'.format(type(exception).__name__,
                                               exception)

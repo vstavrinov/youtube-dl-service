@@ -50,6 +50,12 @@ Here 'youtube.com/BloombergTV/live' is URL of web page where You watch this stre
 curl 'http://localhost:8808/youtube.com/BloombergTV/live?--list-formats'
 ```
 
+Use redirect option to set location header to extracted url:
+
+```
+curl 'http://localhost:8808/youtube.com/BloombergTV/live?redirect=1'
+```
+
 To get the list of supported sites for streaming:
 
 ```
@@ -79,10 +85,10 @@ If You provide a URL it must be the first option. Needless to say You can use an
 
 ## Update
 
-The docker image automatically updated with [yt-dlp](https://github.com/yt-dlp/yt-dlp) every update. So to get image for your service up to date do the following in that order: 
+The docker image automatically updated with [yt-dlp](https://github.com/yt-dlp/yt-dlp) every update. So to get image for your service up to date do the following in that order:
 
-1. Stop your docker container. 
-2. Remove Your docker container. 
-3. Remove your docker image. 
+1. Stop your docker container.
+2. Remove Your docker container.
+3. Remove your docker image.
 4. Run your docker container.
 
