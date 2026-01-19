@@ -2,8 +2,8 @@ FROM alpine
 ENV PATH=/srv/.local/bin:$PATH TMPDIR=/dev/shm PYTHONDONTWRITEBYTECODE=1
 WORKDIR /srv
 COPY youtube-dl-service.py gunicorn.conf.py yt-dlp-version ./
-RUN apk update &&                                                               \
-    apk add --no-cache python3 py-pip py-flask py3-gunicorn tzdata ffmpeg deno; \
+RUN apk update &&                                                                          \
+    apk add --no-cache python3 py-pip py-flask py3-gunicorn tzdata ffmpeg deno yt-dlp-ejs; \
     adduser -h /srv -D gunicorn; chown -R gunicorn:gunicorn /srv
 USER gunicorn
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
