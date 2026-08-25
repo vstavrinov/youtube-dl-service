@@ -40,7 +40,7 @@ def main(path, request=request):
                 args += opt + ' ' + request.args[opt] + ' '
         args += ('-o - ' + path + '?' + query_string).rstrip('?')
         if 'redirect' in request.args:
-            args += ' --print=%(url)s'
+            args += ' --print=%(formats.-1.manifest_url)s'
         stderr = None
         for opt in '--list-', '--dump-', '--print', '--get-', '--help':
             if opt in args:
